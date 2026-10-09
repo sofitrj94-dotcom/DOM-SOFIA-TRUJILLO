@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Taller Práctico DOM y Eventos</title>
+  <style>
+    .seccion-caja { padding: 20px; border: 1px solid #ccc; margin-bottom: 10px; }
+    .fondo-activo { background-color: #d1e7dd; color: #0f5132; }
+    .error { color: red; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+  <!-- Ejercicio 1 -->
+  <section class="seccion-caja">
+    <h3>Ejercicio 1: Botón interactivo</h3>
+    <p id="parrafo1">Texto inicial del párrafo.</p>
+    <button id="btnCambiarTexto">Cambiar Texto</button>
+  </section>
+
+  <!-- Ejercicio 2 -->
+  <section id="seccionColor" class="seccion-caja">
+    <h3>Ejercicio 2: Cambio de apariencia</h3>
+    <button id="btnColorApp">Cambiar Fondo</button>
+    <button id="btnRestaurarApp">Restaurar Fondo</button>
+  </section>
+
+  <!-- Ejercicio 3 -->
+  <section class="seccion-caja">
+    <h3>Ejercicio 3: Seguimiento de escritura</h3>
+    <input type="text" id="campoEscritura" placeholder="Escribe algo aquí...">
+    <p>Texto en tiempo real: <span id="vistaPrevia"></span></p>
+  </section>
+
+  <!-- Ejercicio 4 -->
+  <section class="seccion-caja">
+    <h3>Ejercicio 4: Lista dinámica</h3>
+    <input type="text" id="nuevoItemText" placeholder="Nuevo elemento">
+    <button id="btnAgregarItem">Agregar a la Lista</button>
+    <ul id="listaDinamica"></ul>
+  </section>
+
+  <!-- Ejercicio 5 -->
+  <section class="seccion-caja">
+    <h3>Ejercicio 5: Formulario con validación</h3>
+    <form id="formRegistro">
+      <div>
+        <label>Nombre:</label>
+        <input type="text" id="nombreInput">
+        <span id="errNombre" class="error"></span>
+      </div>
+      <div>
+        <label>Correo:</label>
+        <input type="text" id="correoInput">
+        <span id="errCorreo" class="error"></span>
+      </div>
+      <div>
+        <label>Contraseña:</label>
+        <input type="password" id="passInput">
+        <span id="errPass" class="error"></span>
+      </div>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <script>
+    // Ejercicio 1
+    const p1 = document.getElementById("parrafo1");
+    const btn1 = document.getElementById("btnCambiarTexto");
+    btn1.addEventListener("click", () => {
+      p1.textContent = "¡El texto ha sido actualizado con éxito!";
+    });
+
+    // Ejercicio 2
+    const secColor = document.getElementById("seccionColor");
+    document.getElementById("btnColorApp").addEventListener("click", () => secColor.classList.add("fondo-activo"));
+    document.getElementById("btnRestaurarApp").addEventListener("click", () => secColor.classList.remove("fondo-activo"));
+
+    // Ejercicio 3
+    const campo = document.getElementById("campoEscritura");
+    const vista = document.getElementById("vistaPrevia");
+    campo.addEventListener("input", (e) => {
+      vista.textContent = e.target.value;
+    });
+
+    // Ejercicio 4
+    const inputLista = document.getElementById("nuevoItemText");
+    const btnLista = document.getElementById("btnAgregarItem");
+    const ulLista = document.getElementById("listaDinamica");
+
+    btnLista.addEventListener("click", () => {
+      if (!inputLista.value.trim()) return;
+      
+      const li = document.createElement("li");
+      li.textContent = inputLista.value + " ";
+      
+      const btnEliminar = document.createElement("button");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.addEventListener("click", () => li.remove());
+
+      li.appendChild(btnEliminar);
+      ulLista.appendChild(li);
+      inputLista.value = "";
+    });
+
+    // Ejercicio 5
+    const form = document.getElementById("formRegistro");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      let valido = true;
+      const nombre = document.getElementById("nombreInput").value.trim();
+      const correo = document.getElementById("correoInput").value.trim();
+      const pass = document.getElementById("passInput").value.trim();
+
+      document.getElementById("errNombre").textContent = nombre ? "" : " El nombre es requerido.";
+      document.getElementById("errCorreo").textContent = correo.includes("@") ? "" : " Correo inválido.";
+      document.getElementById("errPass").textContent = pass.length >= 6 ? "" : " La contraseña debe tener mín. 6 caracteres.";
+
+      if (!nombre || !correo.includes("@") || pass.length < 6) valido = false;
+      
+      if (valido) alert("Formulario enviado correctamente.");
+    });
+  </script>
+</body>
+</html>
