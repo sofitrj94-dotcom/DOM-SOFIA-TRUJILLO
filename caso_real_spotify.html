@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Spotify Web Player - Prototipo DOM</title>
+  <style>
+    body {
+      font-family: 'Circular', Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      padding: 30px;
+    }
+    .spotify-card {
+      max-width: 400px;
+      background-color: #181818;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 0 auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    h2 {
+      color: #1db954; /* Verde Spotify */
+      margin-top: 0;
+    }
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+    }
+    .player {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #282828;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .btn-play {
+      background-color: #1db954;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-play:hover {
+      background-color: #1ed760;
+    }
+    .status {
+      font-size: 0.9em;
+      color: #b3b3b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="spotify-card">
+    <h2>Spotify Player</h2>
+    
+    <!-- 1. Campo de búsqueda (Evento input) -->
+    <input type="search" id="inputBuscar" class="search-box" placeholder="¿Qué quieres escuchar?">
+    <p id="resultadoBusqueda" class="status">Escribe un artista o canción...</p>
+
+    <!-- 2. Reproductor interactivo (Evento click) -->
+    <div class="player">
+      <div>
+        <strong id="tituloCancion">Bohemian Rhapsody</strong>
+        <div class="status">Queen</div>
+      </div>
+      <button id="btnReproducir" class="btn-play">▶ Play</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Manejo del evento 'input' en la barra de búsqueda
+    const inputBuscar = document.getElementById("inputBuscar");
+    const resultadoBusqueda = document.getElementById("resultadoBusqueda");
+
+    inputBuscar.addEventListener("input", (event) => {
+      const texto = event.target.value.trim();
+      if (texto === "") {
+        resultadoBusqueda.textContent = "Escribe un artista o canción...";
+      } else {
+        resultadoBusqueda.textContent = `Buscando "${texto}" en la biblioteca de Spotify...`;
+      }
+    });
+
+    // 2. Manejo del evento 'click' en el botón de reproducción
+    const btnReproducir = document.getElementById("btnReproducir");
+    const tituloCancion = document.getElementById("tituloCancion");
+    let reproduciendo = false;
+
+    btnReproducir.addEventListener("click", () => {
+      reproduciendo = !reproduciendo; // Alternar estado
+
+      if (reproduciendo) {
+        btnReproducir.textContent = "⏸ Pause";
+        btnReproducir.style.backgroundColor = "#ffffff";
+        tituloCancion.style.color = "#1db954";
+      } else {
+        btnReproducir.textContent = "▶ Play";
+        btnReproducir.style.backgroundColor = "#1db954";
+        tituloCancion.style.color = "#ffffff";
+      }
+    });
+  </script>
+
+</body>
+</html>
